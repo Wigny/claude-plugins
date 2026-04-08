@@ -1,0 +1,7 @@
+{
+  "name": "markdown-new-crawl",
+  "version": "2.0.0",
+  "description": "Recursively crawl a site section and return Markdown using the markdown.new crawl API. Use for multi-page extraction, whole-docs crawl, or job-based crawl polling.",
+  "author": "Wigny",
+  "repository": "https://github.com/Wigny/claude"
+}

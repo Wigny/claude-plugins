@@ -1,0 +1,20 @@
+{
+  "name": "local",
+  "owner": {
+    "name": "Wigny"
+  },
+  "plugins": [
+    {
+      "name": "cloudflare-markdown",
+      "source": "./skills/cloudflare-markdown"
+    },
+    {
+      "name": "markdown-new",
+      "source": "./skills/markdown-new"
+    },
+    {
+      "name": "markdown-new-crawl",
+      "source": "./skills/markdown-new-crawl"
+    }
+  ]
+}
