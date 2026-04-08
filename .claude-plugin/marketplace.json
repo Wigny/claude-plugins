@@ -5,16 +5,9 @@
   },
   "plugins": [
     {
-      "name": "cloudflare-markdown",
-      "source": "./skills/cloudflare-markdown"
-    },
-    {
-      "name": "markdown-new",
-      "source": "./skills/markdown-new"
-    },
-    {
-      "name": "markdown-new-crawl",
-      "source": "./skills/markdown-new-crawl"
+      "name": "fetch-pages",
+      "source": "./plugins/fetch-pages",
+      "description": "Markdown fetch skills: cloudflare-markdown, markdown-new, and markdown-new-crawl."
     }
   ]
 }
