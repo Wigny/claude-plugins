@@ -1,0 +1,7 @@
+{
+  "name": "elixir",
+  "version": "1.0.0",
+  "description": "Elixir development skills: hex-docs.",
+  "author": { "name": "Wigny" },
+  "repository": "https://github.com/Wigny/claude"
+}

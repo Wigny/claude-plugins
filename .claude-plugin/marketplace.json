@@ -8,6 +8,11 @@
       "name": "fetch-pages",
       "source": "./plugins/fetch-pages",
       "description": "Markdown fetch skills: cloudflare-markdown, markdown-new, and markdown-new-crawl."
+    },
+    {
+      "name": "elixir",
+      "source": "./plugins/elixir",
+      "description": "Elixir development skills: hex-docs."
     }
   ]
 }
