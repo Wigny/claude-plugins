@@ -1,6 +1,6 @@
 ---
 name: markdown-new
-description: Fallback skill for fetching a single web page as Markdown via `https://markdown.new/<target_url>` when the cloudflare-markdown skill fails or the site does not support `Accept: text/markdown`. Use the WebFetch tool with the markdown.new proxy URL.
+description: Alternative skill for fetching a single web page as Markdown via `https://markdown.new/<target_url>` when it is already known that the site does not support `Accept: text/markdown`, or when the cloudflare-markdown skill encounters an error or unsupported content type. Use the WebFetch tool with the markdown.new proxy URL. Never use as a fallback after curl already retrieved a response — work with that response instead.
 version: 2.0.0
 ---
 
@@ -17,11 +17,14 @@ Use `markdown.new` as a fallback to convert any web page to Markdown when native
 
 ## Required Behavior
 
-1. Only invoke this skill after the `cloudflare-markdown` skill has failed. Trigger conditions:
-   - Response `content-type` was not `text/markdown` (site not on Cloudflare or feature disabled)
-   - Origin response exceeded 2 MB
-   - Source document is not HTML (PDF, JSON, etc.)
-   - HTTP error or timeout from the direct request
+1. Invoke this skill **instead of** `cloudflare-markdown` (not after it) when any of the following is already known before fetching:
+   - The site was previously confirmed to not support `Accept: text/markdown`
+   - The source document is not HTML (PDF, JSON, etc.)
+   - The origin response is expected to exceed 2 MB
+
+   Also invoke this skill if `cloudflare-markdown` encountered an HTTP error or timeout (i.e. no usable response was returned).
+
+   Do NOT invoke this skill if `cloudflare-markdown` already returned a response — even if the content-type was HTML. Use that response directly instead of re-fetching.
 
 2. Use `WebFetch` with `https://markdown.new/<target_url>` as the URL:
    - Example: fetch `https://markdown.new/https://example.com/docs/getting-started`

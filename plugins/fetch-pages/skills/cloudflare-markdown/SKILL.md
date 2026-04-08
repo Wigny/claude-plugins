@@ -28,13 +28,14 @@ Sites hosted on Cloudflare with "Markdown for Agents" enabled respond to `Accept
 3. Confirm success by checking the response headers:
    - `content-type: text/markdown` — Cloudflare served Markdown natively
    - `x-markdown-tokens` — token count estimate is present
-   - If these headers are absent and the body is HTML, the feature is not active on this site
+   - If these headers are absent and the body is HTML, the feature is not active on this site — use the HTML response body directly, do not re-fetch via `markdown-new`
 
-4. Fall back to the `markdown-new` skill when any of the following apply:
-   - Response `content-type` is not `text/markdown`
-   - The site is not behind Cloudflare or has the feature disabled
+4. Use the `markdown-new` skill **instead of this skill** (not as a fallback after fetching) only when it is already known that the site does not support the Cloudflare Markdown feature:
    - The origin response exceeds 2 MB
    - The source document is not HTML (PDF, JSON, etc.)
+   - The site was previously confirmed to not support `Accept: text/markdown`
+
+   Never fetch the same URL twice (once via curl, once via `markdown-new`). If curl already retrieved a response, work with that response.
 
 5. Do not use WebFetch or direct browsing when curl or wget is available via the Bash tool.
 
