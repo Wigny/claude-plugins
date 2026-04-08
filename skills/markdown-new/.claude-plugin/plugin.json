@@ -2,6 +2,6 @@
   "name": "markdown-new",
   "version": "2.0.0",
   "description": "Fallback skill for fetching a single web page as Markdown via markdown.new when the cloudflare-markdown skill fails or the site does not support Accept: text/markdown.",
-  "author": "Wigny",
+  "author": { "name": "Wigny" },
   "repository": "https://github.com/Wigny/claude"
 }

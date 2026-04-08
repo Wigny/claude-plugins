@@ -2,6 +2,6 @@
   "name": "cloudflare-markdown",
   "version": "1.0.0",
   "description": "Fetch web pages as Markdown using Cloudflare's native content negotiation by sending Accept: text/markdown via the curl MCP tool.",
-  "author": "Wigny",
+  "author": { "name": "Wigny" },
   "repository": "https://github.com/Wigny/claude"
 }
