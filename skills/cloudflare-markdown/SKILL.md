@@ -1,6 +1,6 @@
 ---
 name: cloudflare-markdown
-description: Fetch web pages as Markdown using Cloudflare's native content negotiation by sending `Accept: text/markdown` via the curl MCP tool. Trigger this skill whenever the user asks to open/read/extract/summarize content from a web link. Always try this first before any other fetch method. Falls back to markdown-new skill if the response is not Markdown.
+description: Fetch web pages as Markdown using Cloudflare's native content negotiation by sending `Accept: text/markdown` via curl or wget (using the Bash tool). Trigger this skill whenever the user asks to open/read/extract/summarize content from a web link. Always try this first before any other fetch method. Falls back to markdown-new skill if the response is not Markdown.
 version: 1.0.0
 ---
 
@@ -14,7 +14,7 @@ Sites hosted on Cloudflare with "Markdown for Agents" enabled respond to `Accept
 
 ## Required Behavior
 
-1. Use the curl MCP tool with `Accept: text/markdown` on the target URL directly:
+1. Use `curl` or `wget` (via the Bash tool) with `Accept: text/markdown` on the target URL directly:
    - Method: GET
    - Header: `Accept: text/markdown`
    - URL: the target URL as-is
@@ -36,7 +36,7 @@ Sites hosted on Cloudflare with "Markdown for Agents" enabled respond to `Accept
    - The origin response exceeds 2 MB
    - The source document is not HTML (PDF, JSON, etc.)
 
-5. Do not use WebFetch or direct browsing when the curl MCP tool is available.
+5. Do not use WebFetch or direct browsing when curl or wget is available via the Bash tool.
 
 ## Output Expectation
 

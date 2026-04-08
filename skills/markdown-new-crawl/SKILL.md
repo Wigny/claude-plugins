@@ -1,6 +1,6 @@
 ---
 name: markdown-new-crawl
-description: Use `https://markdown.new/crawl/{target_url}` endpoints to recursively crawl a site section and return markdowns. Trigger this skill when the user asks for multi-page extraction, whole-docs crawl, link-depth crawling, or job-based crawl polling from a URL. Use the curl MCP tool for all requests.
+description: Use `https://markdown.new/crawl/{target_url}` endpoints to recursively crawl a site section and return markdowns. Trigger this skill when the user asks for multi-page extraction, whole-docs crawl, link-depth crawling, or job-based crawl polling from a URL. Use curl or wget (via the Bash tool) for all requests.
 version: 2.0.0
 ---
 
@@ -10,7 +10,7 @@ Recursively crawl a site section and return Markdown using the `markdown.new` cr
 
 ## Required Behavior
 
-1. Use the curl MCP tool for all requests (GET, POST, DELETE).
+1. Use `curl` or `wget` via the Bash tool for all requests (GET, POST, DELETE).
 2. Assume no authentication required unless service behavior changes.
 3. Start with `POST /crawl` to get a job ID, then poll `GET /crawl/status/{jobId}` until complete.
 4. Default to Markdown output; use `?format=json` only when structured output is needed.
