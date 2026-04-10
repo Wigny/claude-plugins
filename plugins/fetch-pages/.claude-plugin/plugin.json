@@ -1,7 +1,9 @@
 {
   "name": "fetch-pages",
   "version": "2.0.0",
-  "description": "Markdown fetch skills: cloudflare-markdown, markdown-new, and markdown-new-crawl.",
-  "author": { "name": "Wigny" },
-  "repository": "https://github.com/Wigny/claude"
+  "description": "Skills for fetching web pages as Markdown: markdown-new (general-purpose, 3-tier fallback), jina-reader (PDFs, images, API key), defuddle (YAML frontmatter metadata), cloudflare-markdown (Accept header, CF-enabled sites only).",
+  "author": {
+    "name": "Wígny"
+  },
+  "repository": "https://github.com/wigny/claude"
 }

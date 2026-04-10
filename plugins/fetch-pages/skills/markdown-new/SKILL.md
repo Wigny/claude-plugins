@@ -1,38 +1,81 @@
 ---
 name: markdown-new
-description: Alternative skill for fetching a single web page as Markdown via `https://markdown.new/<target_url>` when it is already known that the site does not support `Accept: text/markdown`, or when the cloudflare-markdown skill encounters an error or unsupported content type. Use the WebFetch tool with the markdown.new proxy URL. Never use as a fallback after curl already retrieved a response — work with that response instead.
-version: 2.0.0
+description: Trigger whenever the user asks to fetch, read, open, extract, or summarize content from a public URL (docs, README, blog post, changelog, landing page). Best general-purpose fetcher — no auth, 3-tier fallback (Cloudflare native markdown → Workers AI → headless browser), site crawling. Fall back to jina-reader for PDFs or when the daily rate limit is hit.
 ---
 
-# Markdown.New Single-Page Fallback
+## Markdown.New
 
-Use `markdown.new` as a fallback to convert any web page to Markdown when native Cloudflare content negotiation is unavailable.
+Fetch any public URL as structured Markdown using markdown.new's 3-tier pipeline. No authentication required.
 
-## How It Works
+### Fetch Pipeline (automatic)
 
-`markdown.new` is a Cloudflare-powered proxy that handles `Accept: text/markdown` on behalf of any URL. It uses a three-tier pipeline:
-1. Requests the target with `Accept: text/markdown` natively
-2. Falls back to Cloudflare Workers AI `toMarkdown()` conversion
-3. Falls back to headless browser rendering for JS-heavy pages
+1. **Tier 1** — Requests page with `Accept: text/markdown` (native Markdown via Cloudflare, instant)
+2. **Tier 2** — Converts HTML via Cloudflare Workers AI `toMarkdown()` (0.1–0.6s)
+3. **Tier 3** — Renders in a headless browser for JavaScript-heavy pages (+1–2s)
 
-## Required Behavior
+### Basic Usage
 
-1. Invoke this skill **instead of** `cloudflare-markdown` (not after it) when any of the following is already known before fetching:
-   - The site was previously confirmed to not support `Accept: text/markdown`
-   - The source document is not HTML (PDF, JSON, etc.)
-   - The origin response is expected to exceed 2 MB
+If the URL already serves raw Markdown (path ends in `.md`), fetch it directly — no proxy needed. Otherwise, prepend `https://markdown.new/`:
 
-   Also invoke this skill if `cloudflare-markdown` encountered an HTTP error or timeout (i.e. no usable response was returned).
+```sh
+# Already Markdown — fetch directly
+curl -L --fail --silent --show-error "https://example.com/file.md"
 
-   Do NOT invoke this skill if `cloudflare-markdown` already returned a response — even if the content-type was HTML. Use that response directly instead of re-fetching.
+# HTML page — convert via proxy
+curl -L --fail --silent --show-error "https://markdown.new/https://example.com/page"
+```
 
-2. Use `WebFetch` with `https://markdown.new/<target_url>` as the URL:
-   - Example: fetch `https://markdown.new/https://example.com/docs/getting-started`
+### POST API
 
-3. If `markdown.new` also fails (HTTP error, timeout, blocked content), fall back to another method and state the fallback.
+For more control:
 
-4. For multi-page or recursive crawling, use the `markdown-new-crawl` skill instead.
+```sh
+curl -s -X POST "https://markdown.new/" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com/page", "method": "auto"}'
+```
 
-## Output Expectation
+Parameters:
+- `url` — target page (required)
+- `method` — `"auto"` (default), `"ai"` (force tier 2), `"browser"` (force tier 3)
+- `retain_images` — `true` / `false` (default: `false`)
 
-Static, structured Markdown suitable for reading, summarization, extraction, and downstream processing.
+### Response Headers
+
+- `x-markdown-tokens` — estimated token count, use for context window planning
+
+### Site Crawling
+
+Crawling is async — `POST /crawl` returns a `jobId`, then poll until complete:
+
+```sh
+# 1. Start crawl
+curl -s -X POST "https://markdown.new/crawl" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com", "limit": 50, "depth": 3}'
+
+# 2. Poll until status is "completed"
+curl -s "https://markdown.new/crawl/status/<jobId>"
+
+# 3. Cancel if needed
+curl -s -X DELETE "https://markdown.new/crawl/status/<jobId>"
+```
+
+Key crawl parameters: `limit` (1–500 pages), `depth` (1–10 levels). Results expire after 14 days.
+
+Rate limit: 50 units per crawl, 500 units/day (~10 crawls/day).
+
+### Limitations
+
+- 500 requests/day per IP (HTTP 429 when exceeded)
+- Paywalled and authenticated content unsupported
+- Large pages may be truncated
+- Images excluded by default
+
+### Fallback
+
+If rate-limited or if the target is a PDF, use `jina-reader`:
+
+```sh
+curl -s "https://r.jina.ai/https://example.com/page"
+```

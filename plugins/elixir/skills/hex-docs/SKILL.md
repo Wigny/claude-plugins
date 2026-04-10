@@ -40,22 +40,19 @@ mix hex.docs online PACKAGE VERSION
 
 ### 3. hexdocs.pm (network fallback)
 
-When local options are unavailable, fetch directly from `https://hexdocs.pm`. Always request the `.md` version of a page instead of `.html`:
+When local options are unavailable, fetch directly from `https://hexdocs.pm`. Try the `.md` URL first; if it returns a 404, fall back to fetching the `.html` URL via `markdown-new`.
 
 - Module page: `https://hexdocs.pm/<package>/<Module>.md`
 - Versioned: `https://hexdocs.pm/<package>/<version>/<Module>.md`
 - Guide/extra: `https://hexdocs.pm/<package>/<guide-slug>.md`
 
-Examples:
 ```
-# Prefer:
+# Try first:
 https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.md
 
-# Avoid:
-https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html
+# 404? Fall back via markdown-new:
+https://markdown.new/https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html
 ```
-
-Use the `cloudflare-markdown` or `markdown-new` fetch skills when fetching from hexdocs.pm to get clean Markdown output.
 
 ## Version Resolution
 
@@ -67,7 +64,7 @@ Determine the package version to use in this order:
 
 ## Required Behavior
 
-- Always prefer `.md` over `.html` when both exist, whether on disk or on hexdocs.pm.
+- On disk, prefer `.md` over `.html` when both exist. On hexdocs.pm, try `.md` first and fall back to `.html` via `markdown-new` on 404.
 - Do not fetch from the network if a local source already provides the needed information.
 - When fetching with `mix hex.docs fetch`, read from the resulting local files rather than re-fetching from the network.
 - For source files (`lib/`), surface `@moduledoc` and relevant `@doc` strings directly — they are more accurate than derived HTML.
