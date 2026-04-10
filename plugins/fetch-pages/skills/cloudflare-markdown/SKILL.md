@@ -9,7 +9,7 @@ Fetch pages as Markdown via HTTP content negotiation on Cloudflare-enabled sites
 
 ### Usage
 
-Add `Accept: text/markdown` to the request:
+Use `Bash` with `curl` — response header inspection is required to verify support:
 
 ```sh
 curl -s "https://example.com/page" \
@@ -43,8 +43,8 @@ curl -sI "https://example.com/page" -H "Accept: text/markdown" | grep -i content
 
 ### Fallback
 
-If the site returns HTML (feature not enabled), fall back to `markdown-new`, which tries this same mechanism internally as its first tier:
+If the site returns HTML (feature not enabled), fall back to `markdown-new`:
 
-```sh
-curl -L --fail --silent --show-error "https://markdown.new/https://example.com/page"
+```
+https://markdown.new/https://example.com/page
 ```

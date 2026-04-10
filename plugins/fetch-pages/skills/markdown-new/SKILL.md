@@ -15,19 +15,17 @@ Fetch any public URL as structured Markdown using markdown.new's 3-tier pipeline
 
 ### Basic Usage
 
-If the URL already serves raw Markdown (path ends in `.md`), fetch it directly — no proxy needed. Otherwise, prepend `https://markdown.new/`:
+If the URL already serves raw Markdown (path ends in `.md`), use WebFetch on it directly — no proxy needed.
 
-```sh
-# Already Markdown — fetch directly
-curl -L --fail --silent --show-error "https://example.com/file.md"
+For HTML pages, use WebFetch with the proxy URL:
 
-# HTML page — convert via proxy
-curl -L --fail --silent --show-error "https://markdown.new/https://example.com/page"
+```
+https://markdown.new/https://example.com/page
 ```
 
 ### POST API
 
-For more control:
+For more control (force a specific tier, retain images), use `Bash` with `curl`:
 
 ```sh
 curl -s -X POST "https://markdown.new/" \
@@ -46,7 +44,7 @@ Parameters:
 
 ### Site Crawling
 
-Crawling is async — `POST /crawl` returns a `jobId`, then poll until complete:
+Crawling is async — use `Bash` with `curl`. `POST /crawl` returns a `jobId`, then poll until complete:
 
 ```sh
 # 1. Start crawl
@@ -76,6 +74,6 @@ Rate limit: 50 units per crawl, 500 units/day (~10 crawls/day).
 
 If rate-limited or if the target is a PDF, use `jina-reader`:
 
-```sh
-curl -s "https://r.jina.ai/https://example.com/page"
+```
+https://r.jina.ai/https://example.com/page
 ```

@@ -9,11 +9,13 @@ Fetch any URL as clean Markdown. Handles JavaScript rendering, PDFs, images, sha
 
 ### Basic Usage
 
-```sh
-curl -s "https://r.jina.ai/https://example.com/page"
+Use WebFetch with the proxy URL:
+
+```
+https://r.jina.ai/https://example.com/page
 ```
 
-For single-page applications with hash-based routing:
+For single-page applications with hash-based routing, use `Bash` with `curl` (POST required):
 
 ```sh
 curl -s -X POST "https://r.jina.ai/" \
@@ -23,7 +25,7 @@ curl -s -X POST "https://r.jina.ai/" \
 
 ### Authentication
 
-No API key required at 20 RPM. For higher limits:
+No API key required at 20 RPM. For higher limits, use `Bash` with `curl` to pass the key:
 
 ```sh
 curl -s "https://r.jina.ai/https://example.com" \
@@ -37,7 +39,7 @@ Rate limits:
 
 ### Output Formats
 
-Control via `Accept` header (default: `text/markdown`):
+Non-default formats require `Bash` with `curl` to set the `Accept` header:
 
 ```sh
 # JSON — structured response with url, title, content, timestamp
@@ -49,6 +51,8 @@ curl -s "https://r.jina.ai/https://example.com" -H "Accept: image/png" -o screen
 
 ### Useful Request Headers
 
+These require `Bash` with `curl`:
+
 | Header | Purpose |
 |--------|---------|
 | `x-with-generated-alt: true` | Generate alt text for images |
@@ -58,20 +62,24 @@ curl -s "https://r.jina.ai/https://example.com" -H "Accept: image/png" -o screen
 
 ### PDFs
 
-```sh
-curl -s "https://r.jina.ai/https://example.com/document.pdf"
+Use WebFetch with the proxy URL — PDF extraction is automatic:
+
+```
+https://r.jina.ai/https://example.com/document.pdf
 ```
 
 ### Web Search
 
-```sh
-curl -s "https://s.jina.ai/your+search+query"
+Use WebFetch to search the web and return top results as Markdown:
+
+```
+https://s.jina.ai/your+search+query
 ```
 
 ### Fallback
 
 If Jina Reader fails or returns incomplete content, use `markdown-new`:
 
-```sh
-curl -L --fail --silent --show-error "https://markdown.new/https://example.com/page"
+```
+https://markdown.new/https://example.com/page
 ```

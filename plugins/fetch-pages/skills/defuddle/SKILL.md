@@ -9,18 +9,18 @@ Fetch any publicly accessible URL as clean Markdown with YAML frontmatter metada
 
 ### Usage
 
-Append the target domain and path directly to `defuddle.md`. Omit `https://` from the target URL:
+Append the target domain and path directly to `defuddle.md`. Omit `https://` from the target URL. Use WebFetch:
 
-```sh
-curl -s "https://defuddle.md/example.com/path/to/page"
+```
+https://defuddle.md/example.com/path/to/page
 ```
 
 Examples:
 
-```sh
-curl -s "https://defuddle.md/github.com/owner/repo"
-curl -s "https://defuddle.md/stephango.com/some-article"
-curl -s "https://defuddle.md/docs.example.com/getting-started"
+```
+https://defuddle.md/github.com/owner/repo
+https://defuddle.md/stephango.com/some-article
+https://defuddle.md/docs.example.com/getting-started
 ```
 
 No authentication required.
@@ -55,7 +55,7 @@ url: https://example.com/page
 
 ### Fallback
 
-If defuddle returns incomplete content or fails, use `markdown-new` with browser rendering:
+If defuddle returns incomplete content or fails, use `markdown-new` with browser rendering via `Bash` with `curl` (POST required):
 
 ```sh
 curl -s -X POST "https://markdown.new/" \
