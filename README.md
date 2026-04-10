@@ -5,7 +5,7 @@ A personal [Claude Code](https://claude.ai/code) plugin marketplace.
 ## Installation
 
 ```sh
-/plugin marketplace add wigny/claude
+/plugin marketplace add wigny/claude-plugins
 ```
 
 Then install individual plugins at user scope:
