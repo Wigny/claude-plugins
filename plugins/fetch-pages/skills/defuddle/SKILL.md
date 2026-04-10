@@ -1,6 +1,6 @@
 ---
 name: defuddle
-description: Trigger whenever the user asks to fetch, read, clip, or extract content from a URL and metadata context matters — blog posts, articles, documentation pages where the author, publication date, or description are relevant to the task. Prefer over markdown-new and jina-reader when structured YAML frontmatter (title, author, date, description) is needed alongside the content.
+description: Trigger whenever the user asks to fetch, read, clip, or extract content from a URL and metadata context matters — blog posts, articles, documentation pages, forum threads (including Discourse), or any page where author, publication date, description, or word count are relevant. Prefer over markdown-new and jina-reader when structured YAML frontmatter (title, author, date, description, word count, language) is needed alongside the content.
 ---
 
 ## Defuddle
@@ -44,14 +44,15 @@ url: https://example.com/page
 ### Characteristics
 
 - Strips navigation, sidebars, ads, and boilerplate — main content only
-- YAML frontmatter includes title, author, publication date, description, and source URL
+- YAML frontmatter includes title, author, publication date, description, word count, language, domain, and source URL
+- Code blocks often include language hints (e.g. ```elixir, ```ts) — markdown-new and jina-reader typically omit them; detection is not always accurate
 - No documented rate limit
-- Static pages only via the API — JavaScript-rendered pages require the browser extension
+- Works on SSR-capable pages including Discourse forums, blog platforms, and documentation sites
 
 ### Limitations
 
 - Target must be publicly accessible
-- JavaScript-heavy pages may return incomplete content via the API
+- JavaScript-only SPAs with no SSR may return incomplete or empty content
 
 ### Fallback
 

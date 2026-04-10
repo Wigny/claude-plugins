@@ -1,6 +1,6 @@
 ---
 name: markdown-new
-description: Trigger whenever the user asks to fetch, read, open, extract, or summarize content from a public URL (docs, README, blog post, changelog, landing page). Best general-purpose fetcher — no auth, 3-tier fallback (Cloudflare native markdown → Workers AI → headless browser), site crawling. Fall back to jina-reader for PDFs or when the daily rate limit is hit.
+description: Trigger whenever the user asks to fetch, read, open, extract, or summarize content from a public URL (docs, README, blog post, changelog, landing page). Best general-purpose fetcher — no auth, 3-tier fallback (Cloudflare native markdown → Workers AI → headless browser), site crawling. Fall back to jina-reader for PDFs, large content-heavy pages (truncation risk), or when the daily rate limit is hit.
 ---
 
 ## Markdown.New

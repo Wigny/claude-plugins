@@ -1,6 +1,6 @@
 ---
 name: cloudflare-markdown
-description: Trigger when fetching from a URL known to be on a Cloudflare Markdown-enabled zone. Fastest method — zero external proxy, edge conversion. Always verify via Content-Type response header before consuming; fall back to markdown-new if the site does not support it.
+description: Trigger only when you have prior confirmation that a specific URL serves text/markdown on Accept negotiation — rare in practice. Fastest method when supported — zero external proxy, edge conversion. Always verify via Content-Type; fall back to markdown-new if unsupported.
 ---
 
 ## Cloudflare Markdown for Agents
@@ -37,6 +37,7 @@ curl -sI "https://example.com/page" -H "Accept: text/markdown" | grep -i content
 ### Limitations
 
 - Only works on sites where the owner has explicitly enabled this Cloudflare feature (Pro plan or higher)
+- In practice, most Cloudflare-hosted sites do not enable it — the majority return `text/html` even when on Cloudflare
 - HTML pages only — 2 MB maximum response size
 - Does not handle JavaScript-rendered content
 - Not a general-purpose fetcher
